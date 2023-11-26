@@ -24,28 +24,28 @@ bool esUnAs(int carta)
 }
 
 // Devuelve la cantidad de puntos de la carta
-void puntajeCarta(int carta, int &numeroAsParticipante, int &sumaCartasParticipante, bool &outParticipante)
+void puntajeCarta(int carta, int *numeroAsParticipante, int *sumaCartasParticipante, bool *outParticipante)
 {
     int numero = carta % 13 + 1;
 
     if (esUnAs(carta))
     {
-        numeroAsParticipante++;
-        sumaCartasParticipante += 11;
+        *numeroAsParticipante += 1;
+        *sumaCartasParticipante += 11;
     }
     else if (numero != 1 && numero < 11)
-        sumaCartasParticipante += numero;
+        *sumaCartasParticipante += numero;
     else
-        sumaCartasParticipante += 10;
+        *sumaCartasParticipante += 10;
 
-    while (sumaCartasParticipante > 21 && numeroAsParticipante >= 1)
+    while (*sumaCartasParticipante > 21 && *numeroAsParticipante >= 1)
     {
-        sumaCartasParticipante -= 10;
-        numeroAsParticipante--;
+        *sumaCartasParticipante -= 10;
+        *numeroAsParticipante -= 1;
     };
 
-    if (sumaCartasParticipante > 21)
-        outParticipante = true;
+    if (*sumaCartasParticipante > 21)
+        *outParticipante = true;
 }
 
 // Según el número de la carta, imprime cuál es
@@ -93,24 +93,25 @@ void imprimirCarta(bool nuevaLinea, int carta)
 }
 
 // Chequea si quedan cartas en el mazo, de no haber generado un nuevo mazo
-void chequearMazo(vector<int> &mazo, int &cartasUsadas, int &numeroMazo)
+void chequearMazo(vector<int> *mazo, int *cartasUsadas, int *numeroMazo)
 {
-    if (mazo.size() == 0)
+    if ((*mazo).size() == 0)
     {
-        cartasUsadas = 0;
-        numeroMazo++;
+        *cartasUsadas = 0;
+        *numeroMazo++;
 
         for (int x = 0; x < 52; x++)
-            mazo.push_back(x);
+            (*mazo).push_back(x);
     }
 }
 
 // Saca una carta aleatoria del mazo
-int revolverCarta(int numero, vector<int> &mazo, int &cartasUsadas, int &numeroMazo)
+int revolverCarta(int numero, vector<int> *mazo, int *cartasUsadas, int *numeroMazo)
 {
-    int carta = mazo[numero];
-    mazo.erase(mazo.begin() + numero);
-    cartasUsadas++;
+    int carta = (*mazo)[numero];
+    (*mazo).erase((*mazo).begin() + numero);
+    *cartasUsadas += 1;
+
     chequearMazo(mazo, cartasUsadas, numeroMazo);
 
     return carta;

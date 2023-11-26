@@ -22,7 +22,7 @@ void Jugador::reiniciarDatos()
 }
 
 // Imprime la apuesta y dinero de cada jugador
-void Tablero::imprimirStats(string titulo, vector<int> apuestas, vector<Jugador> jugadoresStats)
+void Tablero::imprimirStats(string titulo, vector<int> *apuestas, vector<Jugador> *jugadoresStats)
 {
     encabezado(titulo);
     cout << "\nRonda: " << ronda << "\t| Apuesta inicial: " << apuestaInicial << "\t| Mazos: "
@@ -31,45 +31,45 @@ void Tablero::imprimirStats(string titulo, vector<int> apuestas, vector<Jugador>
 
     for (int x = 0; x < numeroJugadores; x++)
     {
-        int dinero = jugadoresStats[x].dinero;
+        int dinero = (*jugadoresStats)[x].dinero;
 
         cout << "\nJugador " << x + 1;
-        if (jugadoresStats[x].bancarrota)
+        if ((*jugadoresStats)[x].bancarrota)
             cout << "\t| BANCARROTA\t\t|";
         else
         {
             cout << "\t| Dinero: " << dinero;
 
             if (apuestaInicial != 0 && dinero != 0)
-                cout << "\t\t| Apuesta: " << apuestas[x];
+                cout << "\t\t| Apuesta: " << (*apuestas)[x];
             else if (dinero == 0)
-                cout << "\t\t| Apuesta: " << apuestas[x] << " ALL-IN";
+                cout << "\t\t| Apuesta: " << (*apuestas)[x] << " ALL-IN";
         }
     }
 }
 
 // Imprime las cartas de un jugador en específico
-void Tablero::imprimirCartas(int n, vector<int> &cartas, int &sumaCartas)
+void Tablero::imprimirCartas(int n, vector<int> *cartas, int *sumaCartas)
 {
     cout << "\n\n*** Cartas del jugador " << n + 1 << " ***";
-    for (int x = 0; x < cartas.size(); x++)
-        imprimirCarta(true, cartas[x]);
+    for (int x = 0; x < (*cartas).size(); x++)
+        imprimirCarta(true, (*cartas)[x]);
 
-    cout << "\nTotal: " << sumaCartas;
+    cout << "\nTotal: " << *sumaCartas;
 }
 
 // Imprime las cartas de todos los jugadores
-void Tablero::imprimirTablero(vector<Jugador> &jugadoresStats)
+void Tablero::imprimirTablero(vector<Jugador> *jugadoresStats)
 {
     bool imprimirMas;
     int x, y, n, numeroJugadores, carta, filas, filasCartas, columnas;
     string separacion;
     vector<int> cantidadCartas;
 
-    numeroJugadores = jugadoresStats.size();
-    filas = numeroJugadores / 4 + (numeroJugadores % 4 != 0) ? 1 : 0;
+    numeroJugadores = (*jugadoresStats).size();
+    filas = (numeroJugadores % 4 != 0) ? numeroJugadores / 4 + 1 : numeroJugadores / 4;
 
-    separacion = string(17 * (numeroJugadores >= 4) ? 4 : numeroJugadores - 5, '-');
+    separacion = string((numeroJugadores >= 4) ? 17 * 4 : 17 * numeroJugadores - 5, '-');
 
     for (x = 0; x < filas; x++)
     {
@@ -83,16 +83,16 @@ void Tablero::imprimirTablero(vector<Jugador> &jugadoresStats)
         for (y = 0; y < columnas; y++)
         {
             n = 4 * x + y;
-            cantidadCartas.push_back(jugadoresStats[n].cartas.size());
+            cantidadCartas.push_back((*jugadoresStats)[n].cartas.size());
 
             cout << "Jug " << n + 1;
-            if (jugadoresStats[n].out == true && jugadoresStats[n].sumaCartas <= 21)
+            if ((*jugadoresStats)[n].out && (*jugadoresStats)[n].sumaCartas <= 21)
                 cout << " [Ret]";
-            else if (jugadoresStats[n].ganador == true)
+            else if ((*jugadoresStats)[n].ganador)
                 cout << " [Gan]";
-            else if (jugadoresStats[n].empate == true)
+            else if ((*jugadoresStats)[n].empate)
                 cout << " [Emp]";
-            else if (jugadoresStats[n].bancarrota == false)
+            else if (!(*jugadoresStats)[n].bancarrota)
                 cout << " [Per]";
             else
                 cout << " [Ban]";
@@ -107,20 +107,17 @@ void Tablero::imprimirTablero(vector<Jugador> &jugadoresStats)
             {
                 n = 4 * x + y;
 
-                if (y == 0 && filasCartas >= cantidadCartas[y])
-                    cout << "\n";
-                else if (jugadoresStats[n].bancarrota == false)
+                if (!(*jugadoresStats)[n].bancarrota)
                 {
-                    carta = jugadoresStats[n].cartas[filasCartas];
+                    carta = (*jugadoresStats)[n].cartas[filasCartas];
 
                     if (filasCartas < cantidadCartas[y])
-                        imprimirCarta(false, carta);
+                        imprimirCarta((y == 0), carta);
                     else if (y == 0)
-                        if (filasCartas < cantidadCartas[y])
-                            imprimirCarta(true, carta);
-                        else if (filasCartas >= cantidadCartas[y])
-                            cout << "\n";
+                        cout << "\n";
                 }
+                else if (y == 0 && filasCartas >= cantidadCartas[y])
+                    cout << "\n";
 
                 if (y != columnas - 1)
                     cout << "\t\t| ";
@@ -128,26 +125,24 @@ void Tablero::imprimirTablero(vector<Jugador> &jugadoresStats)
             filasCartas++;
 
             for (y = 0; y < columnas; y++)
-                if (filasCartas >= cantidadCartas[y])
-                    imprimirMas = false;
-                else
-                {
-                    imprimirMas = true;
+            {
+                imprimirMas = (filasCartas < cantidadCartas[y]);
+                if (imprimirMas)
                     break;
-                }
+            }
         }
 
         for (y = 0; y < columnas; y++)
         {
             n = 4 * x + y;
 
-            if (jugadoresStats[n].bancarrota && y != 0)
+            if ((*jugadoresStats)[n].bancarrota && y != 0)
                 cout << "\t";
             else if (y == 0)
                 cout << "\n";
 
-            if (!jugadoresStats[n].bancarrota)
-                cout << "Total: " << jugadoresStats[n].sumaCartas;
+            if (!(*jugadoresStats)[n].bancarrota)
+                cout << "Total: " << (*jugadoresStats)[n].sumaCartas;
             else if (y == 0)
                 cout << "\t";
 

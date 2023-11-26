@@ -3,12 +3,15 @@
 
 using std::cin;
 using std::cout;
+using std::getline;
 using std::string;
 
 void ingreseEnterParaContinuar()
 {
+    string temp;
+
     cout << "\n\nPresione 'Enter' para Continuar: ";
-    cin.get();
+    getline(cin, temp);
 }
 
 // Funcion para permitir que el usuario seleccione entre dos opciones

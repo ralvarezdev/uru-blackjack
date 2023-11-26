@@ -45,9 +45,9 @@ public:
     int cartasUsadas, ronda, numeroMazo;
     int numeroJugadores, duplicarApuesta, apuestaInicial, dineroInicial;
 
-    void imprimirStats(string titulo, vector<int> apuestas, vector<Jugador> jugadoresStats);
-    void imprimirCartas(int n, vector<int> &cartas, int &sumaCartas);
-    void imprimirTablero(vector<Jugador> &jugadoresStats);
+    void imprimirStats(string titulo, vector<int> *apuestas, vector<Jugador> *jugadoresStats);
+    void imprimirCartas(int n, vector<int> *cartas, int *sumaCartas);
+    void imprimirTablero(vector<Jugador> *jugadoresStats);
 
     Tablero()
     {
