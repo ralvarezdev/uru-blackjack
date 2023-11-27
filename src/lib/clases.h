@@ -13,10 +13,11 @@ class Mesa
 public:
     bool out;
     int numeroAs, sumaCartas;
-    vector<int> apuestas,  cartas;
+    vector<int> apuestas, cartas;
 
     void reiniciarDatos();
 
+    // Constructor
     Mesa()
     {
         out = numeroAs = sumaCartas = 0;
@@ -33,12 +34,14 @@ public:
 
     void reiniciarDatos();
 
+    // Constructor
     Jugador()
     {
         out = stand = ganador = empate = bancarrota = dinero = numeroAs = sumaCartas = 0;
     }
 };
 
+// Clase del tablero
 class Tablero
 {
 public:
@@ -49,6 +52,7 @@ public:
     void imprimirCartas(int n, vector<int> *cartas, int *sumaCartas);
     void imprimirTablero(vector<Jugador> *jugadoresStats);
 
+    // Constructor
     Tablero()
     {
         cartasUsadas = numeroMazo = 0;

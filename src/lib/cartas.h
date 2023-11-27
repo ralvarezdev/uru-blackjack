@@ -9,6 +9,7 @@ using std::vector;
 #ifndef CARTAS_H
 #define CARTAS_H
 
+// --- Funciones
 bool esUnAs(int carta);
 void puntajeCarta(int carta, int *numeroAsParticipante, int *sumaCartasParticipante, bool *outParticipante);
 void imprimirCarta(bool nuevaLinea, int carta);

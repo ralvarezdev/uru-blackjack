@@ -21,7 +21,7 @@ void Jugador::reiniciarDatos()
     out = stand = ganador = empate = numeroAs = sumaCartas = 0;
 }
 
-// Imprime la apuesta y dinero de cada jugador
+// Metodo que imprime la apuesta y dinero de cada jugador
 void Tablero::imprimirStats(string titulo, vector<int> *apuestas, vector<Jugador> *jugadoresStats)
 {
     encabezado(titulo);
@@ -48,7 +48,7 @@ void Tablero::imprimirStats(string titulo, vector<int> *apuestas, vector<Jugador
     }
 }
 
-// Imprime las cartas de un jugador en específico
+// Método que imprime las cartas de un jugador en específico
 void Tablero::imprimirCartas(int n, vector<int> *cartas, int *sumaCartas)
 {
     cout << "\n\n*** Cartas del jugador " << n + 1 << " ***";
@@ -58,7 +58,7 @@ void Tablero::imprimirCartas(int n, vector<int> *cartas, int *sumaCartas)
     cout << "\nTotal: " << *sumaCartas;
 }
 
-// Imprime las cartas de todos los jugadores
+// Método que imprime las cartas de todos los jugadores
 void Tablero::imprimirTablero(vector<Jugador> *jugadoresStats)
 {
     bool imprimirMas;

@@ -14,7 +14,15 @@ using std::string;
 using std::uniform_int_distribution;
 using std::vector;
 
-// Evalúa si la carta es un As
+// --- Prototipos de funciones
+bool esUnAs(int carta);
+void puntajeCarta(int carta, int *numeroAsParticipante, int *sumaCartasParticipante, bool *outParticipante);
+void imprimirCarta(bool nuevaLinea, int carta);
+void chequearMazo(vector<int> *mazo, int *cartasUsadas, int *numeroMazo);
+int revolverCarta(int numero, vector<int> *mazo, int *cartasUsadas, int *numeroMazo);
+void mensajeFinal(string mensaje);
+
+// Función que evalúa si la carta es un As
 bool esUnAs(int carta)
 {
     if (carta % 13 == 0)
@@ -23,7 +31,7 @@ bool esUnAs(int carta)
         return false;
 }
 
-// Devuelve la cantidad de puntos de la carta
+// Función que devuelve la cantidad de puntos de la carta
 void puntajeCarta(int carta, int *numeroAsParticipante, int *sumaCartasParticipante, bool *outParticipante)
 {
     int numero = carta % 13 + 1;
@@ -48,7 +56,7 @@ void puntajeCarta(int carta, int *numeroAsParticipante, int *sumaCartasParticipa
         *outParticipante = true;
 }
 
-// Según el número de la carta, imprime cuál es
+// Función que según el número de la carta, imprime cuál es
 void imprimirCarta(bool nuevaLinea, int carta)
 {
     int x = carta / 13;
@@ -92,7 +100,7 @@ void imprimirCarta(bool nuevaLinea, int carta)
         }
 }
 
-// Chequea si quedan cartas en el mazo, de no haber generado un nuevo mazo
+// Función que chequea si quedan cartas en el mazo, de no haber generado un nuevo mazo
 void chequearMazo(vector<int> *mazo, int *cartasUsadas, int *numeroMazo)
 {
     if ((*mazo).size() == 0)
@@ -105,7 +113,7 @@ void chequearMazo(vector<int> *mazo, int *cartasUsadas, int *numeroMazo)
     }
 }
 
-// Saca una carta aleatoria del mazo
+// Función que saca una carta aleatoria del mazo
 int revolverCarta(int numero, vector<int> *mazo, int *cartasUsadas, int *numeroMazo)
 {
     int carta = (*mazo)[numero];
@@ -117,6 +125,7 @@ int revolverCarta(int numero, vector<int> *mazo, int *cartasUsadas, int *numeroM
     return carta;
 }
 
+// Función que imprime un mensaje especial al terminar el juego
 void mensajeFinal(string mensaje)
 {
     random_device rd;

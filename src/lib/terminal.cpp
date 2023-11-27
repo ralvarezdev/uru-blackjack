@@ -6,6 +6,13 @@ using std::cout;
 using std::getline;
 using std::string;
 
+// --- Prototipos de funciones
+void ingreseEnterParaContinuar();
+bool seleccionSimple(string mensaje);
+void limpiarTerminal();
+void encabezado(string titulo);
+
+// Función para detener el flujo del programa hasta que el usuario ingrese Enter
 void ingreseEnterParaContinuar()
 {
     string temp;
@@ -14,7 +21,7 @@ void ingreseEnterParaContinuar()
     getline(cin, temp);
 }
 
-// Funcion para permitir que el usuario seleccione entre dos opciones
+// Función para permitir que el usuario seleccione entre dos opciones
 bool seleccionSimple(string mensaje)
 {
     string entrada;
@@ -33,7 +40,7 @@ bool seleccionSimple(string mensaje)
     } while (true);
 }
 
-// Limpia el terminal, e imprime un encabezado
+// Función para limpiar el terminal
 void limpiarTerminal()
 {
 #ifdef _WIN32 // Para Windows
@@ -43,6 +50,7 @@ void limpiarTerminal()
 #endif
 }
 
+// Función para imprimir un encabezado
 void encabezado(string titulo)
 {
     limpiarTerminal();
